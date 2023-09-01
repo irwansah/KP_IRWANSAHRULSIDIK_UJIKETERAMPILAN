@@ -2,7 +2,7 @@
 
 Ini adalah aplikasi pemesanan makanan sederhana
 
-<img src="/main_sc.png">
+<img src="/main_sc.png" width="200">
 
 aplikasi ini dibuat untuk kebutuhan pembelajaran dan uji keterampilan tugas akhir kelas flutter.
 
@@ -12,6 +12,11 @@ aplikasi ini dibuat untuk kebutuhan pembelajaran dan uji keterampilan tugas akhi
 flutter
 material
 ```
+
+## Design
+[Download Figma](https://www.figma.com/file/qqSkwJz1CaV3SIYda6sNoC/BurgerQueens?type=design&node-id=0%3A1&mode=design&t=725MYJQNVtDQqcZM-1)
+
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FqqSkwJz1CaV3SIYda6sNoC%2FBurgerQueens%3Ftype%3Ddesign%26node-id%3D0%253A1%26mode%3Ddesign%26t%3D725MYJQNVtDQqcZM-1" allowfullscreen></iframe>
 
 ## Library
 ``` yaml
