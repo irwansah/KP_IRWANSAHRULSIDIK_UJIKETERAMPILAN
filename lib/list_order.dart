@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'order_provider.dart';
+import 'package:intl/intl.dart';
 
 class ListOrderPage extends StatelessWidget {
   @override
@@ -21,6 +22,10 @@ class ListOrderPage extends StatelessWidget {
               itemCount: orderProvider.dataListOrder.length,
               itemBuilder: (context, index) {
                 final pesanan = orderProvider.dataListOrder[index];
+
+                final hargaFormatted = NumberFormat.currency(
+                        locale: 'id_ID', symbol: 'Rp', decimalDigits: 0)
+                    .format(pesanan.hargaMakanan);
                 return Container(
                   decoration: BoxDecoration(
                       border: Border.all(
@@ -39,15 +44,10 @@ class ListOrderPage extends StatelessWidget {
                     ),
                     tileColor: Color.fromARGB(255, 246, 246, 246),
                     title: Text(pesanan.namaMakanan),
-                    subtitle: Text('Harga: ${pesanan.hargaMakanan}'),
+                    subtitle: Text(hargaFormatted),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // IconButton(
-                        //     onPressed: () {
-                        //       orderProvider.hapusOrder(pesanan);
-                        //     },
-                        //     icon: Icon(Icons.delete)),
                         IconButton(
                           icon: Icon(Icons.remove),
                           onPressed: () {
