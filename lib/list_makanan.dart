@@ -3,12 +3,14 @@ import 'package:intl/intl.dart';
 import 'detail_makanan.dart';
 
 class ListMakananPage extends StatefulWidget {
+  const ListMakananPage({super.key});
+
   @override
-  _ListMakananPageState createState() => _ListMakananPageState();
+  ListMakananPageState createState() => ListMakananPageState();
 }
 
-class _ListMakananPageState extends State<ListMakananPage> {
-  List<Map<String, dynamic>> data_list_makanan = [
+class ListMakananPageState extends State<ListMakananPage> {
+  List<Map<String, dynamic>> dataListMakanan = [
     {
       'id_makanan': 1,
       'nama_makanan': 'Double Cheese',
@@ -59,17 +61,16 @@ class _ListMakananPageState extends State<ListMakananPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        itemCount: data_list_makanan.length,
+        itemCount: dataListMakanan.length,
         itemBuilder: (context, index) {
-          final makanan = data_list_makanan[index];
+          final makanan = dataListMakanan[index];
           return Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 border: Border(
                     bottom: BorderSide(
-                        width: 1,
-                        color: const Color.fromARGB(255, 183, 183, 183)))),
+                        width: 1, color: Color.fromARGB(255, 183, 183, 183)))),
             child: ListTile(
-              contentPadding: EdgeInsets.all(16.0),
+              contentPadding: const EdgeInsets.all(16.0),
               onTap: () {
                 Navigator.push(
                   context,
@@ -78,7 +79,7 @@ class _ListMakananPageState extends State<ListMakananPage> {
                   ),
                 );
               },
-              tileColor: Color.fromARGB(255, 233, 232, 232),
+              tileColor: const Color.fromARGB(255, 233, 232, 232),
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Image.network(
@@ -89,7 +90,7 @@ class _ListMakananPageState extends State<ListMakananPage> {
                 ),
               ),
               title: Container(
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -104,12 +105,12 @@ class _ListMakananPageState extends State<ListMakananPage> {
                             .format(makanan['harga']),
                         textScaleFactor: 1,
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: const Color.fromARGB(255, 116, 116, 116)),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 116, 116, 116)),
                       )
                     ]),
               ),
-              trailing: Icon(Icons.chevron_right),
+              trailing: const Icon(Icons.chevron_right),
             ),
           );
         },

@@ -5,6 +5,7 @@ class HistoryItem {
   final String address;
   final int totalHarga;
   final int jumlahItem;
+  final String status;
 
   HistoryItem({
     required this.id,
@@ -13,5 +14,6 @@ class HistoryItem {
     required this.jumlahItem,
     required this.payment,
     required this.address,
+    required this.status,
   });
 }

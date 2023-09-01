@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'order_item.dart';
 
 class OrderProvider extends ChangeNotifier {
-  List<OrderItem> _dataListOrder = [];
+  final List<OrderItem> _dataListOrder = [];
 
   List<OrderItem> get dataListOrder => _dataListOrder;
 
   int _totalHarga = 0;
-  int _jumlahItem = 0; 
+  int _jumlahItem = 0;
 
   int get totalHarga => _totalHarga;
   int get jumlahItem => _jumlahItem;
@@ -55,6 +55,13 @@ class OrderProvider extends ChangeNotifier {
     orderItem.jumlahOrder++;
     hitungTotalHarga();
     hitungJumlahItem(); // Hitung jumlah item setelah menambah jumlah pesanan
+    notifyListeners();
+  }
+
+  void bersihkanOrder() {
+    _dataListOrder.clear();
+    _totalHarga = 0;
+    _jumlahItem = 0;
     notifyListeners();
   }
 }

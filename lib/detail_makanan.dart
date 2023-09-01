@@ -7,13 +7,13 @@ import 'package:intl/intl.dart';
 class DetailMakananPage extends StatefulWidget {
   final Map<String, dynamic> makanan;
 
-  DetailMakananPage({required this.makanan});
+  const DetailMakananPage({super.key, required this.makanan});
 
   @override
-  _DetailMakananPageState createState() => _DetailMakananPageState();
+  DetailMakananPageState createState() => DetailMakananPageState();
 }
 
-class _DetailMakananPageState extends State<DetailMakananPage> {
+class DetailMakananPageState extends State<DetailMakananPage> {
   int _inputOrder = 1;
   void _tambahPesanan(BuildContext context) {
     final orderItem = OrderItem(
@@ -43,7 +43,7 @@ class _DetailMakananPageState extends State<DetailMakananPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Berhasil Dipesan'),
+          title: const Text('Berhasil Dipesan'),
           content:
               Text('${orderItem.namaMakanan} telah ditambahkan ke pesanan.'),
           actions: [
@@ -57,7 +57,7 @@ class _DetailMakananPageState extends State<DetailMakananPage> {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop(); // Kembali ke halaman list menu
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -73,7 +73,7 @@ class _DetailMakananPageState extends State<DetailMakananPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('BurgerQueens'),
+        title: const Text('BurgerQueens'),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 255, 81, 7),
       ),
@@ -81,7 +81,7 @@ class _DetailMakananPageState extends State<DetailMakananPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Image.network(
@@ -91,93 +91,91 @@ class _DetailMakananPageState extends State<DetailMakananPage> {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               widget.makanan['nama_makanan'],
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 16),
-            Container(
+            const SizedBox(height: 16),
+            SizedBox(
               width: 200,
               child: Text(
                 widget.makanan['detail_makanan'],
-                style: TextStyle(color: Color.fromARGB(255, 86, 86, 86)),
+                style: const TextStyle(color: Color.fromARGB(255, 86, 86, 86)),
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               hargaFormatted,
               textScaleFactor: 2,
             ),
-            SizedBox(height: 16),
-            Container(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.remove),
-                    onPressed: () {
-                      if (_inputOrder != 1) {
-                        setState(() {
-                          _inputOrder--;
-                        });
-                      }
-                    },
-                  ),
-                  // Text(_inputOrder.toString()),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    width: 50,
-                    padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                      color: Colors
-                          .white, // You can change the background color here
-                    ),
-                    child: Text(
-                      _inputOrder.toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0, // You can adjust the text size here
-                        fontWeight: FontWeight
-                            .w500, // You can change the font weight here
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () {
+            const SizedBox(height: 16),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove),
+                  onPressed: () {
+                    if (_inputOrder != 1) {
                       setState(() {
-                        _inputOrder++;
+                        _inputOrder--;
                       });
-                    },
+                    }
+                  },
+                ),
+                // Text(_inputOrder.toString()),
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  width: 50,
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                    color: Colors
+                        .white, // You can change the background color here
                   ),
-                ],
-              ),
+                  child: Text(
+                    _inputOrder.toString(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 20.0, // You can adjust the text size here
+                      fontWeight: FontWeight
+                          .w500, // You can change the font weight here
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    setState(() {
+                      _inputOrder++;
+                    });
+                  },
+                ),
+              ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 _tambahPesanan(context);
               },
-              child: Text('Order'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 255, 81, 7),
-                padding: EdgeInsets.all(20),
+                backgroundColor: const Color.fromARGB(255, 255, 81, 7),
+                padding: const EdgeInsets.all(20),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
               ),
+              child: const Text('Pesan'),
             ),
           ],
         ),
