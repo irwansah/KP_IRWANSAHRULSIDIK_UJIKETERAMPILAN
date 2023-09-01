@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'order_provider.dart';
 
-
+import 'list_makanan.dart';
+import 'list_order.dart';
+import 'akun.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,7 +29,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   final List<Widget> _pages = [
-   
+    ListMakananPage(),
+    ListOrderPage(),
+    AkunPage(),
   ];
 
   @override
