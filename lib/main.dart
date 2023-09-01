@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'order_provider.dart';
+import 'history_provider.dart';
 
 import 'list_makanan.dart';
 import 'list_order.dart';
@@ -11,8 +12,11 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => OrderProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => OrderProvider()),
+        ChangeNotifierProvider(create: (context) => HistoryProvider()),
+      ],
       child: MaterialApp(
         home: MyHomePage(),
         debugShowCheckedModeBanner: false,

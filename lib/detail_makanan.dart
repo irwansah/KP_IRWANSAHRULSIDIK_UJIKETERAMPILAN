@@ -4,16 +4,24 @@ import 'order_item.dart';
 import 'order_provider.dart';
 import 'package:intl/intl.dart';
 
-class DetailMakananPage extends StatelessWidget {
+class DetailMakananPage extends StatefulWidget {
   final Map<String, dynamic> makanan;
 
+  DetailMakananPage({required this.makanan});
+
+  @override
+  _DetailMakananPageState createState() => _DetailMakananPageState();
+}
+
+class _DetailMakananPageState extends State<DetailMakananPage> {
+  int _inputOrder = 1;
   void _tambahPesanan(BuildContext context) {
     final orderItem = OrderItem(
-      idMakanan: makanan['id_makanan'],
-      namaMakanan: makanan['nama_makanan'],
-      urlImage: makanan['url_image'],
-      hargaMakanan: makanan['harga'],
-      jumlahOrder: 1,
+      idMakanan: widget.makanan['id_makanan'],
+      namaMakanan: widget.makanan['nama_makanan'],
+      urlImage: widget.makanan['url_image'],
+      hargaMakanan: widget.makanan['harga'],
+      jumlahOrder: _inputOrder,
     );
 
     final orderProvider = Provider.of<OrderProvider>(context, listen: false);
@@ -40,6 +48,11 @@ class DetailMakananPage extends StatelessWidget {
               Text('${orderItem.namaMakanan} telah ditambahkan ke pesanan.'),
           actions: [
             TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white, // Text color
+                backgroundColor:
+                    const Color.fromARGB(255, 255, 81, 7), // Background color
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop(); // Kembali ke halaman list menu
@@ -52,13 +65,11 @@ class DetailMakananPage extends StatelessWidget {
     );
   }
 
-  DetailMakananPage({required this.makanan});
-
   @override
   Widget build(BuildContext context) {
     final hargaFormatted =
         NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0)
-            .format(makanan['harga']);
+            .format(widget.makanan['harga']);
 
     return Scaffold(
       appBar: AppBar(
@@ -67,52 +78,110 @@ class DetailMakananPage extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 255, 81, 7),
       ),
       body: Center(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 16),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Image.network(
-              makanan['url_image'],
-              width: 200,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
-          ),
-          SizedBox(height: 16),
-          Text(
-            makanan['nama_makanan'],
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 16),
-          Text(
-            makanan['detail_makanan'],
-            style: TextStyle(color: const Color.fromARGB(255, 140, 140, 140)),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 16),
-          Text(
-            hargaFormatted,
-            textScaleFactor: 2,
-          ),
-          SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              _tambahPesanan(context);
-            },
-            child: Text('Order'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 255, 81, 7),
-              padding: EdgeInsets.all(15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 40),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image.network(
+                widget.makanan['url_image'],
+                width: 200,
+                height: 200,
+                fit: BoxFit.cover,
               ),
             ),
-          ),
-        ],
-      )),
+            SizedBox(height: 16),
+            Text(
+              widget.makanan['nama_makanan'],
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 16),
+            Container(
+              width: 200,
+              child: Text(
+                widget.makanan['detail_makanan'],
+                style: TextStyle(color: Color.fromARGB(255, 86, 86, 86)),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(height: 16),
+            Text(
+              hargaFormatted,
+              textScaleFactor: 2,
+            ),
+            SizedBox(height: 16),
+            Container(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.remove),
+                    onPressed: () {
+                      if (_inputOrder != 1) {
+                        setState(() {
+                          _inputOrder--;
+                        });
+                      }
+                    },
+                  ),
+                  // Text(_inputOrder.toString()),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    width: 50,
+                    padding: EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                      color: Colors
+                          .white, // You can change the background color here
+                    ),
+                    child: Text(
+                      _inputOrder.toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20.0, // You can adjust the text size here
+                        fontWeight: FontWeight
+                            .w500, // You can change the font weight here
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      setState(() {
+                        _inputOrder++;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                _tambahPesanan(context);
+              },
+              child: Text('Order'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 255, 81, 7),
+                padding: EdgeInsets.all(20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
