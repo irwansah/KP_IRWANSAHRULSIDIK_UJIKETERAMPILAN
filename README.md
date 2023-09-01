@@ -1,16 +1,59 @@
-# uji_keterampilan
+# Aplikasi BurgerQueens
 
-A new Flutter project.
+Ini adalah aplikasi pemesanan makanan sederhana
 
-## Getting Started
+<img src="/main_sc.png">
 
-This project is a starting point for a Flutter application.
+aplikasi ini dibuat untuk kebutuhan pembelajaran dan uji keterampilan tugas akhir kelas flutter.
 
-A few resources to get you started if this is your first Flutter project:
+## Basic
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+``` 
+flutter
+material
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Library
+``` yaml
+
+  provider: ^5.0.0
+  intl: ^0.18.1
+  uuid: ^4.0.0
+
+```
+
+## Assets 
+Semua referensi & aset gambar di dapat dari website [Burger King](https://bkdelivery.co.id/)
+
+[CDN] 
+https://irwansahrulsidik.com/cdn/pack.png
+https://irwansahrulsidik.com/cdn/ice.png
+https://irwansahrulsidik.com/cdn/burger.png
+https://irwansahrulsidik.com/cdn/cspicy.png
+https://irwansahrulsidik.com/cdn/cgolden.png
+https://irwansahrulsidik.com/cdn/cola.png
+
+
+## Running
+
+**Clone Repo :**
+
+```bash
+git clone https://github.com/irwansah/KP_IRWANSAHRULSIDIK_UJIKETERAMPILAN
+```
+
+```bash
+cd uji_keterampian
+```
+
+**Install all dependency :**
+
+```bash
+flutter pub get
+```
+
+**Run:**
+
+```bash
+flutter run
+```
