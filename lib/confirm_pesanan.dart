@@ -126,7 +126,9 @@ class ConfirmPesananPage extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                        "Silahkan salin kode pembayaran dan lakukan pembayaran")
+                      "Silahkan salin kode pembayaran dan \n lakukan pembayaran",
+                      textAlign: TextAlign.center,
+                    )
                   ],
                 ),
               ),

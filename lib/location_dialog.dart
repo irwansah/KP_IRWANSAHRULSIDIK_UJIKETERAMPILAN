@@ -53,7 +53,7 @@ class LocationDialog extends StatelessWidget {
                   Navigator.pop(
                       context, true); // true berarti "Gunakan Lokasi Ini"
                 },
-                child: const Text('Gunakan Lokasi Ini'),
+                child: const Text('Ya, Gunakan Lokasi ini'),
               ),
             ),
           ],
