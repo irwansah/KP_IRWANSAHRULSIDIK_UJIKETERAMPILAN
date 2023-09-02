@@ -67,6 +67,9 @@ class ListOrderPageState extends State<ListOrderPage> {
         builder: (context) => ConfirmPesananPage(id: generatedUuid),
       ),
     );
+
+    final orderProvider = Provider.of<OrderProvider>(context, listen: false);
+    orderProvider.bersihkanOrder();
   }
 
   void _showLocationDialog(BuildContext context) async {
@@ -368,8 +371,6 @@ class ListOrderPageState extends State<ListOrderPage> {
                                   context,
                                   orderProvider.totalHarga + 12000,
                                   orderProvider.jumlahItem);
-
-                              orderProvider.bersihkanOrder();
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
