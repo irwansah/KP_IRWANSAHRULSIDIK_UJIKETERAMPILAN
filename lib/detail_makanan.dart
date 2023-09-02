@@ -84,7 +84,7 @@ class DetailMakananPageState extends State<DetailMakananPage> {
             const SizedBox(height: 40),
             ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
-              child: Image.network(
+              child: Image.asset(
                 widget.makanan['url_image'],
                 width: 200,
                 height: 200,
@@ -170,7 +170,8 @@ class DetailMakananPageState extends State<DetailMakananPage> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 255, 81, 7),
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),

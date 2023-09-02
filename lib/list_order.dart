@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'confirm_pesanan.dart';
 import 'history_provider.dart';
 import 'history_item.dart';
+import 'location_dialog.dart';
 import 'order_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
@@ -18,9 +19,23 @@ class ListOrderPageState extends State<ListOrderPage> {
   String _selectedItem = 'COD';
   String _address = '';
   final FocusNode _addressFocusNode = FocusNode();
-  final _titlePage = "Pesanan Masih Kosong";
 
-  final List<String> _options = ['COD', 'QRIS', "Virtual Account BCA"];
+  final List<String> _options = ['COD', 'QRIS', "VA BCA"];
+
+  final TextEditingController _addressController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Inisialisasi controller dengan nilai awal dari _address
+    _addressController.text = _address;
+  }
+
+  @override
+  void dispose() {
+    _addressController.dispose(); // Membersihkan controller
+    super.dispose();
+  }
 
   void _tambahHistory(BuildContext context, int total, int jml) {
     DateTime currentDateTime = DateTime.now();
@@ -41,64 +56,52 @@ class ListOrderPageState extends State<ListOrderPage> {
         Provider.of<HistoryProvider>(context, listen: false);
 
     historyProvider.tambahHistory(history);
-
-    if (_selectedItem == "COD") {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Pesanan dibuat'),
-            content: const Text('Mohon tunggu , pesanan anda segera diproses'),
-            actions: [
-              TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.white, // Text color
-                  backgroundColor:
-                      const Color.fromARGB(255, 255, 81, 7), // Background color
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ConfirmPesananPage(
-                          totalHarga: total, payment: _selectedItem),
-                    ),
-                  );
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    }
+    setState(() {
+      _address = "";
+      _addressController.text = _address;
+    });
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            ConfirmPesananPage(totalHarga: total, payment: _selectedItem),
+        builder: (context) => ConfirmPesananPage(id: generatedUuid),
       ),
     );
+  }
+
+  void _showLocationDialog(BuildContext context) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return const LocationDialog(); // Menggunakan LocationDialog dari file terpisah
+      },
+    );
+
+    if (result != null && result) {
+      setState(() {
+        _address = 'contoh lokasi dari map';
+        _addressController.text = _address; // Perbarui controller
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final orderProvider = Provider.of<OrderProvider>(context);
-
     return Scaffold(
       body: orderProvider.dataListOrder.isEmpty
           ? Center(
               child: Text(
-                _titlePage,
+                "Pesanan masih kosong nih. \n\n Anda bisa melihat status pesanan terakhir \n di akun > riwayat pesanan",
                 style: const TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
               ),
             )
-          : Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
                     itemCount: orderProvider.dataListOrder.length,
                     itemBuilder: (context, index) {
                       final pesanan = orderProvider.dataListOrder[index];
@@ -118,7 +121,7 @@ class ListOrderPageState extends State<ListOrderPage> {
                           contentPadding: const EdgeInsets.all(16.0),
                           leading: ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
-                            child: Image.network(
+                            child: Image.asset(
                               pesanan.urlImage,
                               width: 60,
                               height: 60,
@@ -182,192 +185,211 @@ class ListOrderPageState extends State<ListOrderPage> {
                       );
                     },
                   ),
-                ),
-                // Tampilkan total harga di bagian bawah
-                Container(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Total',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            Text(
-                              NumberFormat.currency(
-                                      locale: 'id_ID',
-                                      symbol: 'Rp',
-                                      decimalDigits: 0)
-                                  .format(orderProvider.totalHarga),
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Biaya Delivery',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            Text(
-                              NumberFormat.currency(
-                                      locale: 'id_ID',
-                                      symbol: 'Rp',
-                                      decimalDigits: 0)
-                                  .format(12000),
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Total Bayar',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            Text(
-                              NumberFormat.currency(
-                                      locale: 'id_ID',
-                                      symbol: 'Rp',
-                                      decimalDigits: 0)
-                                  .format(orderProvider.totalHarga + 12000),
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Container(
+                  //Total Harga
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        Container(
                           margin: const EdgeInsets.only(left: 20, right: 20),
-                          child: Container(
-                            width: double.infinity,
-                            height: 45,
-                            margin: const EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    width: 1,
-                                    color: const Color.fromARGB(
-                                        255, 153, 153, 153))),
-                            child: DropdownButtonFormField(
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Total',
+                                style: TextStyle(fontSize: 18),
                               ),
-                              icon: null, // Remove the dropdown icon
-                              borderRadius: BorderRadius.circular(10),
-                              padding: const EdgeInsets.only(left: 10),
-                              value: _selectedItem,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  _selectedItem = newValue.toString();
-                                });
-                              },
-                              items: _options
-                                  .map<DropdownMenuItem<dynamic>>((value) {
-                                return DropdownMenuItem<dynamic>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    textScaleFactor: 0.8,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          )),
-                      Container(
-                        width: double.infinity,
-                        height: 40,
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        child: TextField(
-                          focusNode: _addressFocusNode,
-                          onChanged: (value) {
-                            setState(() {
-                              _address = value.toString();
-                            });
-                          },
-                          decoration: InputDecoration(
-                            labelText: 'Isi Alamat Pengiriman',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                              Text(
+                                NumberFormat.currency(
+                                        locale: 'id_ID',
+                                        symbol: 'Rp',
+                                        decimalDigits: 0)
+                                    .format(orderProvider.totalHarga),
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      Container(
-                        height: 40,
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (_address == "") {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text('Perhatian'),
-                                    content: const Text(
-                                        'Mohon Lengkapi Informasi Alamat & Pembayaran'),
-                                    actions: [
-                                      TextButton(
-                                        style: TextButton.styleFrom(
-                                          foregroundColor:
-                                              Colors.white, // Text color
-                                          backgroundColor: const Color.fromARGB(
-                                              255,
-                                              255,
-                                              81,
-                                              7), // Background color
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('OK'),
-                                      ),
-                                    ],
-                                  );
+                        Container(
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Biaya Delivery',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              Text(
+                                NumberFormat.currency(
+                                        locale: 'id_ID',
+                                        symbol: 'Rp',
+                                        decimalDigits: 0)
+                                    .format(12000),
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Total Bayar',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              Text(
+                                NumberFormat.currency(
+                                        locale: 'id_ID',
+                                        symbol: 'Rp',
+                                        decimalDigits: 0)
+                                    .format(orderProvider.totalHarga + 12000),
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Container(
+                            margin: const EdgeInsets.only(left: 20, right: 20),
+                            child: Container(
+                              width: double.infinity,
+                              height: 45,
+                              margin: const EdgeInsets.only(bottom: 10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                      width: 1,
+                                      color: const Color.fromARGB(
+                                          255, 153, 153, 153))),
+                              child: DropdownButtonFormField(
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                ),
+                                icon: null, // Remove the dropdown icon
+                                borderRadius: BorderRadius.circular(10),
+                                padding: const EdgeInsets.only(left: 10),
+                                value: _selectedItem,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _selectedItem = newValue.toString();
+                                  });
                                 },
-                              );
-                              FocusScope.of(context)
-                                  .requestFocus(_addressFocusNode);
+                                items: _options
+                                    .map<DropdownMenuItem<dynamic>>((value) {
+                                  return DropdownMenuItem<dynamic>(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      textScaleFactor: 0.8,
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            )),
+                        Container(
+                          width: double.infinity,
+                          height: 45,
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          child: Stack(
+                            children: [
+                              TextField(
+                                focusNode: _addressFocusNode,
+                                controller:
+                                    _addressController, // Atur controller
 
-                              return;
-                            }
-
-                            _tambahHistory(
-                                context,
-                                orderProvider.totalHarga + 12000,
-                                orderProvider.jumlahItem);
-
-                            orderProvider.bersihkanOrder();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 255, 81, 7),
-                            padding: const EdgeInsets.all(15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
+                                // onChanged: (value) {
+                                //   setState(() {
+                                //     _address = value.toString();
+                                //   });
+                                // },
+                                decoration: InputDecoration(
+                                  labelText: 'Isi Alamat Pengiriman',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: IconButton(
+                                  iconSize: 24.0,
+                                  icon: const Icon(Icons.location_on),
+                                  onPressed: () {
+                                    _showLocationDialog(context);
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                          child: const Text('Pesan Sekarang'),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 20),
+                        Container(
+                          height: 50,
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (_address == "") {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Perhatian'),
+                                      content: const Text(
+                                          'Mohon Lengkapi Informasi Alamat & Pembayaran'),
+                                      actions: [
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            foregroundColor:
+                                                Colors.white, // Text color
+                                            backgroundColor:
+                                                const Color.fromARGB(255, 255,
+                                                    81, 7), // Background color
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                                FocusScope.of(context)
+                                    .requestFocus(_addressFocusNode);
+
+                                return;
+                              }
+
+                              _tambahHistory(
+                                  context,
+                                  orderProvider.totalHarga + 12000,
+                                  orderProvider.jumlahItem);
+
+                              orderProvider.bersihkanOrder();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 255, 81, 7),
+                              padding: const EdgeInsets.all(15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                            ),
+                            child: const Text('Pesan Sekarang'),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 50,
+                  )
+                ],
+              ),
             ),
     );
   }

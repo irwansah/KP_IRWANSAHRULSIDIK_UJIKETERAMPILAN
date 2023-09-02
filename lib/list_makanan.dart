@@ -14,7 +14,7 @@ class ListMakananPageState extends State<ListMakananPage> {
     {
       'id_makanan': 1,
       'nama_makanan': 'Double Cheese',
-      'url_image': 'https://irwansahrulsidik.com/cdn/burger.png',
+      'url_image': 'assets/image/burger.png',
       'detail_makanan':
           'Burger dengan daging sapi yang juicy ditambah dengan keju yang tebal',
       'harga': 45000,
@@ -22,7 +22,7 @@ class ListMakananPageState extends State<ListMakananPage> {
     {
       'id_makanan': 2,
       'nama_makanan': 'Spicy Chicken',
-      'url_image': 'https://irwansahrulsidik.com/cdn/cspicy.png',
+      'url_image': 'assets/image/cspicy.png',
       'detail_makanan':
           'Ayam goreng crispy dengan baluran tepung saus pedas yang nikmat dimulut',
       'harga': 22000,
@@ -30,28 +30,28 @@ class ListMakananPageState extends State<ListMakananPage> {
     {
       'id_makanan': 3,
       'nama_makanan': 'Golden Chicken',
-      'url_image': 'https://irwansahrulsidik.com/cdn/cgolden.png',
+      'url_image': 'assets/image/cgolden.png',
       'detail_makanan': 'Ayam goreng crispy orginal gurih dan beraroma otentik',
       'harga': 19000,
     },
     {
       'id_makanan': 4,
       'nama_makanan': 'Meal Box',
-      'url_image': 'https://irwansahrulsidik.com/cdn/pack.png',
+      'url_image': 'assets/image/pack.png',
       'detail_makanan': 'Ayam goreng crispy orginal gurih dan beraroma otentik',
       'harga': 54000,
     },
     {
       'id_makanan': 5,
       'nama_makanan': 'Ice Creamy',
-      'url_image': 'https://irwansahrulsidik.com/cdn/ice.png',
+      'url_image': 'assets/image/ice.png',
       'detail_makanan': 'Ayam goreng crispy orginal gurih dan beraroma otentik',
       'harga': 17000,
     },
     {
       'id_makanan': 6,
       'nama_makanan': 'ColaCoca',
-      'url_image': 'https://irwansahrulsidik.com/cdn/cola.png',
+      'url_image': 'assets/image/cola.png',
       'detail_makanan': 'Ayam goreng crispy orginal gurih dan beraroma otentik',
       'harga': 9000,
     },
@@ -82,7 +82,7 @@ class ListMakananPageState extends State<ListMakananPage> {
               tileColor: const Color.fromARGB(255, 233, 232, 232),
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
-                child: Image.network(
+                child: Image.asset(
                   makanan['url_image'],
                   width: 60,
                   height: 60,

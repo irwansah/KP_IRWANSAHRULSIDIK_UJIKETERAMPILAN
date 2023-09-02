@@ -6,9 +6,19 @@ class HistoryProvider extends ChangeNotifier {
 
   List<HistoryItem> get historyList => _historyList;
 
-  // Menambahkan riwayat pesanan baru
   void tambahHistory(HistoryItem historyItem) {
     _historyList.add(historyItem);
     notifyListeners();
+  }
+
+  void hapusHistory(String id) {
+    _historyList.removeWhere((historyItem) => historyItem.id == id);
+    notifyListeners();
+  }
+
+  HistoryItem? getDetailHistoryById(String id) {
+    final historyItem =
+        _historyList.firstWhere((historyItem) => historyItem.id == id);
+    return historyItem;
   }
 }

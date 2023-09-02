@@ -31,14 +31,14 @@ class OrderProvider extends ChangeNotifier {
   void tambahOrder(OrderItem orderItem) {
     _dataListOrder.add(orderItem);
     hitungTotalHarga();
-    hitungJumlahItem(); // Hitung jumlah item setelah menambahkan pesanan
+    hitungJumlahItem(); 
     notifyListeners();
   }
 
   void hapusOrder(OrderItem orderItem) {
     _dataListOrder.remove(orderItem);
     hitungTotalHarga();
-    hitungJumlahItem(); // Hitung jumlah item setelah menghapus pesanan
+    hitungJumlahItem(); 
     notifyListeners();
   }
 
@@ -46,7 +46,7 @@ class OrderProvider extends ChangeNotifier {
     if (orderItem.jumlahOrder > 1) {
       orderItem.jumlahOrder--;
       hitungTotalHarga();
-      hitungJumlahItem(); // Hitung jumlah item setelah mengurangi pesanan
+      hitungJumlahItem();
       notifyListeners();
     }
   }
@@ -54,7 +54,7 @@ class OrderProvider extends ChangeNotifier {
   void tambahJumlahOrder(OrderItem orderItem) {
     orderItem.jumlahOrder++;
     hitungTotalHarga();
-    hitungJumlahItem(); // Hitung jumlah item setelah menambah jumlah pesanan
+    hitungJumlahItem();
     notifyListeners();
   }
 
