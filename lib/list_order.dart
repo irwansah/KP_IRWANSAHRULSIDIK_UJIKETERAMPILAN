@@ -93,10 +93,10 @@ class ListOrderPageState extends State<ListOrderPage> {
     final orderProvider = Provider.of<OrderProvider>(context);
     return Scaffold(
       body: orderProvider.dataListOrder.isEmpty
-          ? Center(
+          ? const Center(
               child: Text(
                 "Pesanan masih kosong nih. \n\n Anda bisa melihat status pesanan terakhir \n di akun > riwayat pesanan",
-                style: const TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
               ),
             )
